@@ -2,7 +2,7 @@ services:
   - type: web
     name: ehealth-rbac
     runtime: docker
-    plan: starter
+    plan: free
     autoDeploy: true
     healthCheckPath: /login.php
     envVars:
@@ -49,4 +49,4 @@ services:
 
 databases:
   - name: ehealth-rbac-db
-    plan: starter
+    plan: free
