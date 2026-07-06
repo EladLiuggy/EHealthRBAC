@@ -1,0 +1,6 @@
+app/config.local.php
+public/uploads/licenses/*
+!public/uploads/licenses/.gitkeep
+.env
+.DS_Store
+Thumbs.db

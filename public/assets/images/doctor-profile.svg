@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+<title id="title">Doctor portrait illustration</title>
+<desc id="desc">Friendly doctor avatar used on the landing page card.</desc>
+<rect width="320" height="320" rx="56" fill="#ecfeff"/>
+<circle cx="160" cy="120" r="58" fill="#0f766e"/>
+<path d="M76 262c18-52 48-82 84-82s66 30 84 82v18H76z" fill="#2563eb"/>
+<path d="M130 118c0-27 13-46 30-46s30 19 30 46-13 48-30 48-30-21-30-48z" fill="#f8d9c1"/>
+<path d="M118 118c0-34 18-58 42-58s42 24 42 58c0 6-1 12-2 18-8-13-25-21-42-21s-34 8-42 21c-1-6-2-12-2-18z" fill="#0f766e"/>
+<path d="M108 262c14-44 31-66 52-66s38 22 52 66" fill="#ffffff"/>
+<path d="M138 194l22 26 22-26 14 18-20 50h-32l-20-50z" fill="#ffffff"/>
+<rect x="146" y="212" width="28" height="52" rx="14" fill="#14b8a6"/>
+<path d="M206 102h38a12 12 0 0 1 12 12v28a12 12 0 0 1-12 12h-32l-18 18v-18h-6a12 12 0 0 1-12-12v-28a12 12 0 0 1 12-12z" fill="#ffffff"/>
+<path d="M216 126h20v10h10v20h-10v10h-20v-10h-10v-20h10z" fill="#0f766e"/>
+</svg>

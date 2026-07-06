@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+<title id="title">Security and care team illustration</title>
+<desc id="desc">Healthcare team with a shield motif representing secure access to records.</desc>
+<defs>
+<linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#dbeafe"/>
+<stop offset="100%" stop-color="#ccfbf1"/>
+</linearGradient>
+<linearGradient id="shield" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#0f766e"/>
+<stop offset="100%" stop-color="#2563eb"/>
+</linearGradient>
+</defs>
+<rect width="1200" height="900" fill="url(#bg)"/>
+<circle cx="226" cy="222" r="110" fill="#ffffff" opacity=".4"/>
+<circle cx="980" cy="710" r="148" fill="#ffffff" opacity=".34"/>
+<path d="M600 168l232 88v162c0 158-94 272-232 332-138-60-232-174-232-332V256z" fill="url(#shield)"/>
+<path d="M604 286c66 0 120 54 120 120s-54 120-120 120-120-54-120-120 54-120 120-120z" fill="#ffffff" opacity=".16"/>
+<path d="M584 336h40v46h46v40h-46v46h-40v-46h-46v-40h46z" fill="#ffffff"/>
+<circle cx="296" cy="636" r="94" fill="#ffffff"/>
+<circle cx="904" cy="636" r="94" fill="#ffffff"/>
+<path d="M218 792c22-80 60-126 114-126s92 46 114 126" fill="#ffffff"/>
+<path d="M826 792c22-80 60-126 114-126s92 46 114 126" fill="#ffffff"/>
+<circle cx="332" cy="606" r="46" fill="#14b8a6"/>
+<circle cx="940" cy="606" r="46" fill="#2563eb"/>
+<rect x="256" y="806" width="152" height="20" rx="10" fill="#94a3b8"/>
+<rect x="864" y="806" width="152" height="20" rx="10" fill="#94a3b8"/>
+</svg>
