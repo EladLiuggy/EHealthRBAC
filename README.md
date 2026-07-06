@@ -267,19 +267,17 @@ SELECT * FROM table_name;
 
 ## Default Admin Login
 
-Email:
+For safety, do not keep a reusable admin password in the repository documentation.
+
+If your local database was seeded with the default admin user, use the configured local admin account only for development and change its password immediately after first login.
+
+The local admin email is:
 
 ```text
 admin@ehealth.local
 ```
 
-Password:
-
-```text
-Admin@123
-```
-
-This default account works with Mailpit for local OTP testing because Mailpit captures outgoing mail even when the address is not a real public inbox.
+This local account works with Mailpit for OTP testing because Mailpit captures outgoing mail even when the address is not a real public inbox.
 
 ## Production Hosting
 
