@@ -46,11 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SET full_name = :full_name,
                 email = :email,
                 role = :role,
-                status = :status,
-                phone = :phone,
-                address = :address,
-                date_of_birth = :date_of_birth,
-                gender = :gender
+                status = :status
             WHERE id = :id
         ");
         $stmt->execute([
@@ -58,10 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'email' => $email,
             'role' => $role,
             'status' => $status,
-            'phone' => $phone,
-            'address' => $address,
-            'date_of_birth' => $dateOfBirth,
-            'gender' => $gender,
             'id' => $targetId
         ]);
 
@@ -89,6 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'phone' => $phone,
                 'address' => $address
             ]);
+        } else {
+            $stmt = $pdo->prepare("DELETE FROM patients WHERE user_id = :user_id");
+            $stmt->execute(['user_id' => $targetId]);
         }
 
         logAction((int)$user['id'], "Updated user account ID {$targetId}");
@@ -98,9 +93,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $users = $pdo->query("
-    SELECT id, system_id, full_name, email, role, status, phone, address, date_of_birth, gender, created_at
-    FROM users
-    ORDER BY created_at DESC
+    SELECT
+        u.id,
+        u.system_id,
+        u.full_name,
+        u.email,
+        u.role,
+        u.status,
+        u.created_at,
+        p.phone,
+        p.address,
+        p.date_of_birth,
+        p.gender
+    FROM users u
+    LEFT JOIN patients p ON p.user_id = u.id
+    ORDER BY u.created_at DESC
 ")->fetchAll();
 
 renderHeader('Manage Users');
