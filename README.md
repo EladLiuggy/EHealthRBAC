@@ -103,7 +103,34 @@ DB_PASS=your-postgresql-password
 BASE_URL=http://localhost:8000
 ```
 
-6. Keep the default local Mailpit values in `app/config.php` for development:
+6. For the cleanest local setup, copy [app/config.local.example.php](/C:/Users/Elad%20Liuggy/Desktop/EHealthRBAC/app/config.local.example.php) to `app/config.local.php` and put your local-only values there. That file is already ignored by Git.
+
+Local config loading order is:
+
+- Render or server environment variables first
+- `app/config.local.php` second
+- built-in defaults last
+
+Example `app/config.local.php`:
+
+```php
+<?php
+return [
+    'BASE_URL' => 'http://localhost:8000',
+    'DB_HOST' => 'localhost',
+    'DB_PORT' => '5432',
+    'DB_NAME' => 'ehealth_rbac',
+    'DB_USER' => 'postgres',
+    'DB_PASS' => 'your-local-postgresql-password',
+    'MAIL_HOST' => '127.0.0.1',
+    'MAIL_PORT' => '1025',
+    'MAIL_USERNAME' => '',
+    'MAIL_PASSWORD' => '',
+    'MAIL_ENCRYPTION' => '',
+];
+```
+
+7. Keep the default local Mailpit values in `app/config.php` or `app/config.local.php` for development:
 
 ```php
 define('MAIL_FROM_ADDRESS', 'no-reply@ehealth.local');
@@ -115,20 +142,20 @@ define('MAIL_PASSWORD', '');
 define('MAIL_ENCRYPTION', '');
 ```
 
-7. Start Mailpit before testing login:
+8. Start Mailpit before testing login:
 
 ```bash
 cd %USERPROFILE%\Downloads\mailpit-windows-amd64
 mailpit.exe
 ```
 
-8. Start the PHP server from the project root:
+9. Start the PHP server from the project root:
 
 ```bash
 C:\xampp\php\php.exe -S localhost:8000 -t public
 ```
 
-9. Open the application:
+10. Open the application:
 
 ```text
 http://localhost:8000
@@ -139,12 +166,41 @@ http://localhost:8000
 - Install PHPMailer with `composer install` or `composer require phpmailer/phpmailer`.
 - For local development, use a local mail catcher instead of a real inbox. Mailpit is the safest and easiest option.
 - The default `app/config.php` mail settings now target Mailpit on `127.0.0.1:1025` with no SMTP auth.
-- For production or real email testing, switch the `MAIL_*` constants to your SMTP provider.
+- For production or real email testing, set the `MAIL_*` environment variables in Render to your SMTP provider.
 - Use a real mailbox in `MAIL_FROM_ADDRESS` when you switch to external SMTP.
 - If your provider requires SSL on port `465`, set `MAIL_PORT` to `465` and `MAIL_ENCRYPTION` to `ssl`.
 - OTP codes expire after 10 minutes.
 - Users get 3 verification attempts per login flow.
 - Resending a code rotates the previous OTP and enforces a 60-second cooldown.
+
+### Recommended split
+
+- Local machine: Mailpit
+- Render live app: real SMTP provider
+
+This keeps local testing fast and reliable while still allowing real OTP delivery on the hosted demo.
+
+### Recommended SMTP provider for Render
+
+For a student demo, a transactional SMTP provider is usually more reliable than Gmail on cloud hosting. A good option is Brevo.
+
+Typical Brevo SMTP values:
+
+```text
+MAIL_FROM_ADDRESS=your-verified-sender@example.com
+MAIL_FROM_NAME=E-Health RBAC
+MAIL_HOST=smtp-relay.brevo.com
+MAIL_PORT=587
+MAIL_USERNAME=your-brevo-smtp-login
+MAIL_PASSWORD=your-brevo-smtp-key
+MAIL_ENCRYPTION=tls
+```
+
+If you keep using Gmail:
+
+- use an App Password, not your normal Gmail password
+- expect stricter rate limits from cloud hosts like Render
+- check Spam, Promotions, and delayed delivery when testing repeated OTP sends
 
 ## Local 2FA Testing With Mailpit
 
@@ -349,6 +405,7 @@ MAIL_PORT=587
 MAIL_USERNAME=your-smtp-username
 MAIL_PASSWORD=your-smtp-password
 MAIL_ENCRYPTION=tls
+TWO_FACTOR_ENABLED=true
 ```
 
 ### Important production notes
@@ -360,6 +417,8 @@ MAIL_ENCRYPTION=tls
 - Keep Mailpit only for local development.
 - Use a real SMTP sender address in production.
 - Back up your database before running updates or migrations.
+- Keep local Mailpit settings out of Git by using `app/config.local.php`.
+- For a demo-only hosted fallback, set `TWO_FACTOR_ENABLED=false` in Render to bypass OTP on the live app while keeping local Mailpit-based 2FA enabled.
 
 ### Apache example
 

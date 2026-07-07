@@ -48,8 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         beginTwoFactorChallenge($user);
-        flash('success', 'A verification code has been sent to your email address.');
-        redirect('/verify_2fa.php');
+
+        if (isTwoFactorEnabled()) {
+            flash('success', 'A verification code has been sent to your email address.');
+            redirect('/verify_2fa.php');
+        }
     } catch (Throwable $e) {
         clearPendingTwoFactor();
         logAction((int)$user['id'], 'Failed to send login OTP');

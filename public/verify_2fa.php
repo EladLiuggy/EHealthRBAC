@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__ . '/../app/bootstrap.php';
 
+if (!isTwoFactorEnabled()) {
+    flash('error', 'Two-factor verification is currently disabled.');
+    redirect('/login.php');
+}
+
 if ($loggedInUser = currentUser()) {
     redirect(dashboardPath($loggedInUser['role']));
 }

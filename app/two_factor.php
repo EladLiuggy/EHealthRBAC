@@ -1,6 +1,10 @@
 <?php
 declare(strict_types=1);
 
+function isTwoFactorEnabled(): bool {
+    return TWO_FACTOR_ENABLED;
+}
+
 function pendingTwoFactor(): ?array {
     if (empty($_SESSION['pending_2fa']) || !is_array($_SESSION['pending_2fa'])) {
         return null;
@@ -18,6 +22,13 @@ function clearPendingTwoFactor(): void {
 }
 
 function beginTwoFactorChallenge(array $user): void {
+    if (!isTwoFactorEnabled()) {
+        clearPendingTwoFactor();
+        loginUser($user);
+        logAction((int)$user['id'], 'Logged in');
+        redirect(dashboardPath($user['role']));
+    }
+
     $_SESSION['pending_2fa'] = [
         'user_id' => (int)$user['id'],
         'role' => $user['role'],

@@ -1,14 +1,43 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * Local, git-ignored overrides for development.
+ *
+ * The file should return an associative array like:
+ * return ['BASE_URL' => 'http://localhost:8000'];
+ */
+$localConfig = [];
+$localConfigPath = __DIR__ . '/config.local.php';
+
+if (is_file($localConfigPath)) {
+    $loadedLocalConfig = require $localConfigPath;
+
+    if (is_array($loadedLocalConfig)) {
+        $localConfig = $loadedLocalConfig;
+    }
+}
+
 function envConfig(string $key, string $default = ''): string {
+    global $localConfig;
+
     $value = $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key);
 
-    if ($value === false || $value === null || $value === '') {
-        return $default;
+    if ($value !== false && $value !== null && $value !== '') {
+        return (string)$value;
     }
 
-    return (string)$value;
+    if (isset($localConfig[$key]) && $localConfig[$key] !== '') {
+        return (string)$localConfig[$key];
+    }
+
+    return $default;
+}
+
+function envFlag(string $key, bool $default = false): bool {
+    $value = strtolower(trim(envConfig($key, $default ? 'true' : 'false')));
+
+    return in_array($value, ['1', 'true', 'yes', 'on'], true);
 }
 
 define('APP_NAME', 'E-Health RBAC');
@@ -34,6 +63,7 @@ define('MAIL_PORT', (int) envConfig('MAIL_PORT', '1025'));
 define('MAIL_USERNAME', envConfig('MAIL_USERNAME', ''));
 define('MAIL_PASSWORD', envConfig('MAIL_PASSWORD', ''));
 define('MAIL_ENCRYPTION', envConfig('MAIL_ENCRYPTION', ''));
+define('TWO_FACTOR_ENABLED', envFlag('TWO_FACTOR_ENABLED', true));
 
 define('TWO_FACTOR_OTP_TTL_MINUTES', 10);
 define('TWO_FACTOR_MAX_ATTEMPTS', 3);
